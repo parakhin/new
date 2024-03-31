@@ -5,6 +5,7 @@ import jm.task.core.jdbc.util.ThrowingSupplier;
 import jm.task.core.jdbc.util.Util;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,6 +24,20 @@ public class UserDaoJDBCImpl implements UserDao {
                 Statement statement = connection.createStatement();
         ) {
             statement.execute(query);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public void executeWithParameters(String query, String... args) {
+        try (
+                Connection connection = getMySQLConnection.get();
+                PreparedStatement statement = connection.prepareStatement(query);
+        ) {
+            for (int i = 0; i < args.length; i++) {
+                statement.setString(i + 1, args[i]);
+            }
+            statement.execute();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -47,25 +62,13 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        String query = String.format("""
-                    INSERT INTO `Users` (
-                        `name`,
-                        `lastName`,
-                        `age`
-                    ) VALUES (
-                        "%s",
-                        "%s",
-                        %s
-                    );
-                """, name, lastName, age);
-        execute(query);
+        String query = "INSERT INTO `Users` (`name`, `lastName`, `age`) VALUES (?, ?, ?);";
+        executeWithParameters(query, name, lastName, String.valueOf(age));
     }
 
     public void removeUserById(long id) {
-        String query = String.format("""
-                    DELETE FROM `Users` WHERE id="%s";
-                """, id);
-        execute(query);
+        String query = "DELETE FROM `Users` WHERE id=?";
+        executeWithParameters(query, String.valueOf(id));
     }
 
     public List<User> getAllUsers() {
