@@ -16,7 +16,7 @@ public class Main {
         new UserServiceImpl().saveUser("User3", "Surname3", (byte) 30);
         new UserServiceImpl().saveUser("User4", "Surname4", (byte) 35);
         new UserServiceImpl().getAllUsers().forEach(System.out::println);
-        new UserServiceImpl().cleanUsersTable();
-        new UserServiceImpl().dropUsersTable();
+//        new UserServiceImpl().cleanUsersTable();
+//        new UserServiceImpl().dropUsersTable();
     }
 }

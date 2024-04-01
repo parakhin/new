@@ -1065,7 +1065,7 @@
     </schema>
     <schema id="331" parent="1" name="kata_1">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-03-29.05:38:37</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-04-01.13:14:37</LastIntrospectionLocalTimestamp>
       <CollationName>utf8_general_ci</CollationName>
     </schema>
     <schema id="332" parent="1" name="mysql">
@@ -1075,32 +1075,30 @@
       <CollationName>utf8_general_ci</CollationName>
     </schema>
     <user id="334" parent="1" name="root"/>
-    <table id="335" parent="331" name="users">
+    <table id="335" parent="331" name="Users">
       <Engine>InnoDB</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <column id="336" parent="335" name="user_id">
-      <AutoIncrement>1</AutoIncrement>
-      <DasType>int(11)|0s</DasType>
+    <column id="336" parent="335" name="id">
+      <AutoIncrement>9</AutoIncrement>
+      <DasType>mediumint(9)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
     <column id="337" parent="335" name="name">
       <DasType>varchar(45)|0s</DasType>
-      <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="338" parent="335" name="surname">
+    <column id="338" parent="335" name="lastName">
       <DasType>varchar(45)|0s</DasType>
-      <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="339" parent="335" name="middle_name">
-      <DasType>varchar(45)|0s</DasType>
+    <column id="339" parent="335" name="age">
+      <DasType>int(11)|0s</DasType>
       <Position>4</Position>
     </column>
     <index id="340" parent="335" name="PRIMARY">
-      <ColNames>user_id</ColNames>
+      <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
