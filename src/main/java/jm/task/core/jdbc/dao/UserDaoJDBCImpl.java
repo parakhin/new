@@ -18,31 +18,6 @@ public class UserDaoJDBCImpl implements UserDao {
     public UserDaoJDBCImpl() {
     }
 
-    public void execute(String query) {
-        try (
-                Connection connection = getMySQLConnection.get();
-                Statement statement = connection.createStatement();
-        ) {
-            statement.execute(query);
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    public void executeWithParameters(String query, String... args) {
-        try (
-                Connection connection = getMySQLConnection.get();
-                PreparedStatement statement = connection.prepareStatement(query);
-        ) {
-            for (int i = 0; i < args.length; i++) {
-                statement.setString(i + 1, args[i]);
-            }
-            statement.execute();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
     public void createUsersTable() {
         String query = """
                 CREATE TABLE `Users` (
@@ -53,28 +28,59 @@ public class UserDaoJDBCImpl implements UserDao {
                   PRIMARY KEY (`id`)
                 );
                 """;
-        execute(query);
+        try (
+                Connection connection = getMySQLConnection.get();
+                Statement statement = connection.createStatement();
+        ) {
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     public void dropUsersTable() {
-        String query = "DROP TABLE `Users`;";
-        execute(query);
+        String query = "DROP TABLE `Users`";
+        try (
+                Connection connection = getMySQLConnection.get();
+                Statement statement = connection.createStatement();
+        ) {
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     public void saveUser(String name, String lastName, byte age) {
         String query = "INSERT INTO `Users` (`name`, `lastName`, `age`) VALUES (?, ?, ?);";
-        executeWithParameters(query, name, lastName, String.valueOf(age));
+        try (
+                Connection connection = getMySQLConnection.get();
+                PreparedStatement statement = connection.prepareStatement(query)
+        ) {
+            statement.setString(1, name);
+            statement.setString(2, lastName);
+            statement.setByte(3, age);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     public void removeUserById(long id) {
         String query = "DELETE FROM `Users` WHERE id=?";
-        executeWithParameters(query, String.valueOf(id));
+        try (
+                Connection connection = getMySQLConnection.get();
+                PreparedStatement statement = connection.prepareStatement(query)
+        ) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String query = "SELECT id, name, lastName, age FROM `Users`";
-
         try (
                 Connection connection = getMySQLConnection.get();
                 Statement statement = connection.createStatement();
@@ -84,20 +90,26 @@ public class UserDaoJDBCImpl implements UserDao {
                 User user = new User(
                         resultSet.getString("name"),
                         resultSet.getString("lastName"),
-                        Byte.parseByte(resultSet.getString("age"))
+                        resultSet.getByte("age")
                 );
-                user.setId(Long.parseLong(resultSet.getString("id")));
+                user.setId(resultSet.getLong("id"));
                 users.add(user);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return users;
     }
 
     public void cleanUsersTable() {
         String query = "DELETE FROM `Users`";
-        execute(query);
+        try (
+                Connection connection = getMySQLConnection.get();
+                Statement statement = connection.createStatement();
+        ) {
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

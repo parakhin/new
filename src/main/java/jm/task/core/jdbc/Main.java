@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         new UserServiceImpl().createUsersTable();
         new UserServiceImpl().saveUser("User1", "Surname1", (byte) 20);
         new UserServiceImpl().saveUser("User2", "Surname2", (byte) 25);
