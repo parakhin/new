@@ -1065,7 +1065,7 @@
     </schema>
     <schema id="331" parent="1" name="kata_1">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-04-01.13:14:37</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-04-13.13:34:54</LastIntrospectionLocalTimestamp>
       <CollationName>utf8_general_ci</CollationName>
     </schema>
     <schema id="332" parent="1" name="mysql">
@@ -1080,7 +1080,7 @@
       <CollationName>utf8_general_ci</CollationName>
     </table>
     <column id="336" parent="335" name="id">
-      <AutoIncrement>9</AutoIncrement>
+      <AutoIncrement>1</AutoIncrement>
       <DasType>mediumint(9)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
