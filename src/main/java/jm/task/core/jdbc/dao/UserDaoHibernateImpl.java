@@ -6,9 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
-import org.hibernate.query.sql.internal.NativeQueryImpl;
 
-import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 import java.util.function.Supplier;
 
